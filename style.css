@@ -1,0 +1,19 @@
+.header{
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+}
+
+.utilization_red{
+    color: red;
+}
+
+table {
+    border-collapse: collapse;
+  }
+
+table, th, td{
+    padding: 15px;
+    text-align: left;
+    border: 1px solid black;
+    font-family: 'Roboto', sans-serif;
+}

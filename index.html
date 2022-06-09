@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;700&display=swap" rel="stylesheet">
+    <title>CSC3007 Assignment 1</title>
+
+</head>
+
+<body>
+    <h2 class='header'>Environmental Data</h2>
+    <table class='tablestyle'>
+        <thead>
+            <tr>
+				<th>Metric</th>
+                <th>West</th>
+                <th>National</th>
+                <th>East</th>
+                <th>Central</th>
+                <th>South</th>
+                <th>North</th>
+            </tr>
+        </thead>
+        <tbody id="mainTable"></tbody>
+    </table>
+    <script>
+		async function createTable() {
+			var htmlString = "";
+			const api_url = "https://api.data.gov.sg/v1/environment/psi";
+			const response = await fetch(api_url);
+			
+			var data = await response.json();
+			tableData = data.items[0].readings
+			for (const [key, value] of Object.entries(tableData)) {
+					htmlString += "<tr><td>" + key + "</td>";
+					console.log(key);
+					
+					Object.keys(value).forEach(function(heading) {
+						var heading = heading
+						var rowValue = value[heading]
+						htmlString += "<td>" + rowValue + "</td>";
+					})
+					htmlString += "</tr>";
+			}
+			
+			var updatedDateTime = data.items[0].update_timestamp
+            updatedDateTime = new Date(updatedDateTime)
+            var options = {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false};
+			htmlString += "<tr><td>Last Updated " + updatedDateTime.toLocaleDateString("en-US", options);
+			
+			document.getElementById("mainTable").innerHTML = htmlString;
+		}
+
+		createTable();
+    </script>
+</body>
+
+</html>
